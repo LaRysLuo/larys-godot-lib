@@ -8,20 +8,15 @@
 
 ## 静态类方法
 
-### `random_string(length: int = 4) -> String`
+- **`random_string(length: int = 4)`**
+  - **功能**：
+  - 生成由大写英文字母和数字组成的随机字符串。
+  - **参数**: 生成的长度数量，默认长度为 `4`
+  - **返回值**：字符串
 
-生成由大写英文字母和数字组成的随机字符串，默认长度为 `4`。
 
-### `is_blank(text: String) -> bool`
-
-判断字符串是否为空或只包含空白字符（如空格、换行、制表符等）。
----
-
-## 💡 示例
-
-```gdscript
-var code = StringUtils.random_string()        # 如 "A9K2"
-
-if StringUtils.is_blank("   \t\n"):           # 返回 true
-    print("字符串为空或仅有空格")
-```
+- **`is_blank(text: String)`**
+  - **功能**：
+    - 判断字符串是否为空或只包含空白字符（如空格、换行、制表符等）。
+  - **参数**: 要判断的字符串
+  - **返回值**：布尔值
