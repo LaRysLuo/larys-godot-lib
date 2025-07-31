@@ -16,6 +16,12 @@
 git clone https://github.com/LaRysLuo/larik-docsify-skyloong.git
 ```
 
+在本地运行需要全局安装依赖:docsify
+```bash
+npm i docsify-cli -g
+```
+
+
 ---
 
 ## 二、添加 Markdown 文档
@@ -43,7 +49,13 @@ larik-docsify-skyloong/
 
 ---
 
-## 四、推送到主分支完成部署
+## 四、运行预览（需要全局安装docsify)
+```bash
+docsify serve docs
+```
+
+
+## 五、推送到主分支完成部署
 
 完成编辑后，将修改内容推送到 `main` 分支，即可触发部署，文档将自动更新上线：
 
