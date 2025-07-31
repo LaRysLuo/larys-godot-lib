@@ -32,6 +32,12 @@ static func remove(process_symbol:String):
 	_instance.list.erase(process_symbol)
 	_instance._handle_to_normal()
 
+static func get_state() -> int:
+	if not _instance:
+		push_error("ProcessHandler没有初始化")
+		return BUZY
+	return _instance.state
+
 # --------------------------
 # 信号
 # --------------------------
