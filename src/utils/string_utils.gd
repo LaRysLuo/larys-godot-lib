@@ -12,3 +12,9 @@ static func random_string(length: int = 4) -> String:
         var idx = rng.randi_range(0, charset.length() - 1)
         result += charset[idx]
     return result
+
+## 判断字符串是否为空
+static func is_blank(text: String) -> bool:
+    return text.strip_edges() == ""
+
+ 
