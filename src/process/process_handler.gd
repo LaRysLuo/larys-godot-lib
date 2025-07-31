@@ -34,7 +34,6 @@ static func remove(process_symbol:String):
 
 static func get_state() -> int:
 	if not _instance:
-		push_error("ProcessHandler没有初始化")
 		return BUZY
 	return _instance.state
 
