@@ -10,16 +10,14 @@ static  func init() -> ProcessHandler:
 	_instance = ProcessHandler.new()
 	return _instance
 
-## 添加进程到列表
-static func add(process_symbol:String):
+## 开始新的进程
+static func start_new():
 	if not _instance:
 		push_error("ProcessHandler没有初始化")
 		return
-	if _instance.list.has(process_symbol):
-		push_error("错误添加了一个重复的进程")
-		return
-	_instance.list.append(process_symbol)
-	_instance._handle_to_buzy()
+	var symbol = StringUtils.random_string(4)
+	_instance._add(symbol)
+	return symbol
 
 ## 移除进程
 static func remove(process_symbol:String):
@@ -30,11 +28,29 @@ static func remove(process_symbol:String):
 		push_error("不存在这样的进程")
 		return
 	_instance.list.erase(process_symbol)
+	print("进程：%s被移出,忙碌列表中还有%s进程" % [process_symbol,_instance.list.size()])
 	_instance._handle_to_normal()
 
-static func get_state() -> int:
+static  func clear():
 	if not _instance:
-		return BUZY
+		push_error("ProcessHandler没有初始化")
+		return
+	_instance.list = []
+
+## 是否已生成
+static func is_exist():
+	return _instance != null
+
+## 判断进程处理器是否在忙碌
+static func is_buzy() -> bool:
+	return get_state() == BUZY
+
+## 获取正常的信号
+static var get_normal_signal:Signal:
+	get: return _instance.on_normal
+
+static func get_state() -> int:
+	if not _instance: return BUZY
 	return _instance.state
 
 # --------------------------
@@ -56,6 +72,16 @@ var list = []
 
 ## 当前的空闲状态
 var state := NORMAL
+
+
+## 添加进程到列表
+func _add(process_symbol:String):
+	if self.list.has(process_symbol):
+		push_error("错误添加了一个重复的进程")
+		return
+	self.list.append(process_symbol)
+	self._handle_to_buzy()
+	print("新进程进入:%s,忙碌列表中还有%s进程" % [process_symbol,self.list.size()])
 
 
 func _handle_to_buzy():

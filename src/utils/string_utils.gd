@@ -17,4 +17,9 @@ static func random_string(length: int = 4) -> String:
 static func is_blank(text: String) -> bool:
     return text.strip_edges() == ""
 
- 
+static func split_to_str(text:String,char:String = ",") -> Array[String]:
+    var result:Array[String] = []
+    var _arr := text.split(char,true)
+    for tag in _arr:
+        result.append(tag)
+    return result
