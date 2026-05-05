@@ -36,3 +36,16 @@ static func map(arr:Array, call:Callable) -> Array:
     for item in arr:
         result.append(call.call(item))
     return result
+
+## 平铺展开
+static func flat_map(arr:Array,mapper:Callable) -> Array:
+    var result: Array = []
+    for item in arr:
+        var mapped = mapper.call(item)
+
+        if mapped is Array:
+            result.append_array(mapped)
+        elif mapped != null:
+            result.append(mapped)
+
+    return result

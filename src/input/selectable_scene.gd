@@ -27,6 +27,9 @@ var _list:Array:
 
 ## 选择:变更新的选项，并将原选项变为正常
 func select(index:int,reset_last:bool = false) -> void:
+	# if index == -1 and _list.size() > 0:
+	#     index = _list.size() - 1
+		
 	if _list.is_empty():
 		print("list是空的退出了")
 		return
@@ -153,17 +156,27 @@ func _cursor_right():
 	return true
 
 func _get_symbol(_index:int) -> String:
-	return self._list[_index].symbol
+	var item = self._list[_index]
+	if not item.has_method("get_symbol"): return ""
+	return item.get_symbol()
 
 ## 处理选择变更
 func _handle_select_changed(index:int,last:int,symbol:String):
+	var items = _get_item_list()
+	var size = items.size()
+
+	# 处理取消选择（index == -1）
 	if index == -1:
-		var lasted = _get_item_list()[last]
-		lasted.unfocus()
+		if last >= 0 and last < size:
+			items[last].unfocus()
 		return
-	var selected = _get_item_list()[index]
-	selected.focus()
-	if last != -1:
-		var lasted = _get_item_list()[last]
-		lasted.unfocus()
-	return selected
+
+	# 处理当前选中
+	if index >= 0 and index < size:
+		items[index].focus()
+
+	# 处理上一个选中
+	if last >= 0 and last < size:
+		items[last].unfocus()
+
+	return items[index] if index >= 0 and index < size else null

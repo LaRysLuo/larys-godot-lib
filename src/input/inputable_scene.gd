@@ -83,6 +83,9 @@ func deactivate():
 
 ## 音效的回调函数
 
+@export var cursor_move_audio:String
+
+
 # 光标移动
 func _audio_cursor_move():
 	Interpreter.play_se("select03")
@@ -123,11 +126,15 @@ var is_joypad := false:
 
 func _enter_tree() -> void:
 	InputManager.on_action_pressed.connect(_handler_action_input)
-	InputManager.on_joypad_input.connect(func(v:bool):is_joypad = v )
+	InputManager.on_joypad_input.connect(_handle_is_joypad)
 
 func _exit_tree() -> void:
 	InputManager.on_action_pressed.disconnect(_handler_action_input)
-	InputManager.on_joypad_input.disconnect(func(v:bool):is_joypad = v )
+	InputManager.on_joypad_input.disconnect(_handle_is_joypad )
+
+func _handle_is_joypad(v): is_joypad = v
+
+
 
 ## [可重写] 当输入手柄状态变更了
 func _on_joypad_changed(v:bool) -> void:
