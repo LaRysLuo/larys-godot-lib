@@ -32,3 +32,39 @@ static func v_set(source:Object,key:String,value):
 
 		_: source.set(key, value)
 	return source
+
+
+static func resource_to_dict(res: Resource) -> Dictionary:
+	var d = {}
+	for p in res.get_property_list():
+		if p.usage & PROPERTY_USAGE_STORAGE:
+			d[p.name] = res.get(p.name)
+	return d
+
+static func dump_resource(res: Resource, indent: int = 0):
+	var pad = "  ".repeat(indent)
+
+	if res == null:
+		print(pad, "null")
+		return
+
+	print(pad, "[", res.get_class(), "]")
+
+	for p in res.get_property_list():
+		if p.usage & PROPERTY_USAGE_STORAGE:
+			var value = res.get(p.name)
+
+			if value is Resource:
+				print(pad, p.name, " = Resource ->")
+				dump_resource(value, indent + 1)
+
+			elif value is Array:
+				print(pad, p.name, " = Array:")
+				for i in value:
+					if i is Resource:
+						dump_resource(i, indent + 2)
+					else:
+						print(pad, "  - ", i)
+
+			else:
+				print(pad, p.name, " = ", value)

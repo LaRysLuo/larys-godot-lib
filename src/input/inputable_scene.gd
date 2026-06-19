@@ -161,7 +161,6 @@ func __handler_cursor_move(key:int):
 		if disabled: 
 			_audio_error()
 			return
-		print("触发")
 		var result = await _handlers.get("cursor_move").call(key)
 		if result: _audio_cursor_move()
 	# else: push_error("没有注册cursor_move输入器")
@@ -181,7 +180,9 @@ func __handle_ok():
 
 ## 取消时
 func __handle_cancel(): 
+	print("1111",_handlers)
 	if _handlers.has("cancel"): 
+		print("2222")
 		var disabled = _handlers_disabled.get("cancel", false)
 		if disabled: 
 			_audio_error()

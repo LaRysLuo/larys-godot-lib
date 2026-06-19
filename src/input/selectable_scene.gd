@@ -29,7 +29,6 @@ var _list:Array:
 func select(index:int,reset_last:bool = false) -> void:
 	# if index == -1 and _list.size() > 0:
 	#     index = _list.size() - 1
-		
 	if _list.is_empty():
 		print("list是空的退出了")
 		return
@@ -56,7 +55,7 @@ signal on_select_changed(index:int,last:int,symbol:String)
 # ==============================
 
 ## [回调]获取可选择的节点列表 
-func _get_item_list() -> Array[Node]:
+func _get_item_list() -> Array:
 	push_error("未实现_get_item_list")
 	return []
 
@@ -78,6 +77,7 @@ func _get_selection_mode() -> int:
 # ==============================
 
 func _ready() -> void:
+	valid_items(_list)
 	_init_base_handlers()
 
 # ==============================
@@ -92,7 +92,6 @@ func _init_base_handlers():
 
 ## 光标移动
 func _handle_cursor(key:int):
-	print("检测到输入:",key)
 	if _list.is_empty():
 		push_error("出错了，_list配置为空")
 		return
@@ -180,3 +179,9 @@ func _handle_select_changed(index:int,last:int,symbol:String):
 		items[last].unfocus()
 
 	return items[index] if index >= 0 and index < size else null
+
+func valid_items(items:Array):
+	var result:bool = items.all(func(i):return i.has_method("focus") and i.has_method("unfocus"))
+	if not result:
+		assert("SelectableScene使用的按钮必须实现focus和unfocus函数")
+	return result
